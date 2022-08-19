@@ -1,3 +1,29 @@
+@import url("https://use.typekit.net/uku4kvj.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media (min-width: 544px) {
+  .custom-container {
+    max-width: 576px;
+  }
+}
+
+@media (min-width: 768px) {
+  .custom-container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 922px) {
+  .custom-container {
+    max-width: 940px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .custom-container {
+    max-width: 1140px;
+  }
+}
