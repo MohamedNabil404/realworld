@@ -17,7 +17,7 @@ const TagItem = ({
     <div>
       <Link href={{ pathname: "/", query: { tag: `${tag}` } }}>
         <a
-          className={`bg-${backgroundColor} border border-${borderColor} rounded-full px-2 text-${textColor} text-sm`}
+          className={`bg-${backgroundColor}  border border-${borderColor} rounded-full px-2 text-${textColor} text-sm`}
         >
           {tag}
         </a>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FaHeart } from "react-icons/fa";
 import TagItem from "../TagItem";
 
@@ -9,6 +10,7 @@ interface ArticleItemProps {
   favoritesCount: number;
   title: string;
   tags: string[];
+  slug: string;
 }
 
 const ArticleItem = ({
@@ -19,6 +21,7 @@ const ArticleItem = ({
   favoritesCount,
   title,
   tags,
+  slug,
 }: ArticleItemProps) => {
   let currentDate = new Date(date);
   return (
@@ -42,10 +45,12 @@ const ArticleItem = ({
           <span className="text-pgreen">{favoritesCount}</span>
         </div>
       </div>
-      <div>
-        <h1 className="font-semibold text-2xl mb-1 font-sans">{title}</h1>
-        <p className="text-[#999] text-base mb-[15px]">{description}</p>
-      </div>
+      <Link href={`/article/` + `${slug}`}>
+        <a>
+          <h1 className="font-semibold text-2xl mb-1 font-sans">{title}</h1>
+          <p className="text-[#999] text-base mb-[15px]">{description}</p>
+        </a>
+      </Link>
       <div className="flex flex-row w-full  items-center mb-1">
         <p className=" text-xs text-[#bbb] align-middle">Read more...</p>
         <div className="ml-auto flex">

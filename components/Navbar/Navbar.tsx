@@ -25,7 +25,7 @@ const Navbar = () => {
 
       <div className="flex ml-auto ">
         <ul className="">
-          <Link href="" className=" ">
+          <Link href="/" className=" ">
             <a className="text-gray-400 text-base hover:text-gray-600   w-fit h-fit pr-3 ">
               Home
             </a>
@@ -45,13 +45,13 @@ const Navbar = () => {
             </Link>
           )}
           {token ? (
-            <Link href="" className="">
+            <Link href="/user/settings" className="">
               <a className="text-gray-400 text-base hover:text-gray-600  w-fit h-fit pr-3">
                 Settings
               </a>
             </Link>
           ) : (
-            <Link href="" className="">
+            <Link href="/user/register" className="">
               <a className="text-gray-400 text-base hover:text-gray-600  w-fit h-fit pr-3">
                 Sign up
               </a>

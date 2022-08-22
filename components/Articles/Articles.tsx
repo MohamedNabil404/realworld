@@ -1,6 +1,7 @@
 import ArticleItem from "../ArticleItem/ArticleItem";
 
 const Articles = ({ articles }: any) => {
+  console.log(articles);
   return (
     <div className="flex flex-col w-full ">
       {articles === undefined || articles.length == 0 ? (
@@ -10,6 +11,7 @@ const Articles = ({ articles }: any) => {
         articles?.map((m: any, i: number) => {
           return (
             <ArticleItem
+              slug={m.slug}
               key={i}
               description={m.description}
               username={m.author.username}

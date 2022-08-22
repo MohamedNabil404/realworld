@@ -12,14 +12,6 @@ import { Oval } from "react-loader-spinner";
 import { useEffect, useState } from "react";
 
 const ArticlesSection = () => {
-  // var token: string | null | undefined;
-
-  // useEffect(() => {
-  //   token = localStorage.getItem("token");
-  // }, [token]);
-
-  // console.log(token);
-
   const [token, setToken] = useState<string | null | undefined>(null);
 
   useEffect(() => {
@@ -40,8 +32,6 @@ const ArticlesSection = () => {
     () => getCurrentUser(token),
     { enabled: token ? true : false }
   );
-
-  console.log(data);
 
   const { data: dataFavorite } = useQuery(
     ["favorite articles", follow],
