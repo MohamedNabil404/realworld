@@ -69,18 +69,60 @@ export const getArticleBySlug = async (
   slug: string | string[] | undefined,
   token: string | null | undefined
 ) => {
-  const response = await axios.get(`${BASE_URL}/articles/${slug}`, {
-    headers: {
-      Authorization: `Token ${token}`,
-    },
-  });
+  if (token) {
+    const response = await axios.get(`${BASE_URL}/articles/${slug}`, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
+    return response.data;
+  }
+
+  const response = await axios.get(`${BASE_URL}/articles/${slug}`);
   return response.data;
 };
 
 export const getCommentsBySlug = async (
-  slug: string | string[] | undefined
+  slug: string | string[] | undefined,
+  token: string | null | undefined
 ) => {
+  if (token) {
+    const response = await axios.get(`${BASE_URL}/articles/${slug}/comments`, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
+
+    return response.data;
+  }
+
   const response = await axios.get(`${BASE_URL}/articles/${slug}/comments`);
+
+  return response.data;
+};
+
+interface addCommentArticleType {
+  slug: string | string[] | undefined;
+  comment: string;
+  token: string | null | undefined;
+}
+
+export const addCommentToArticle = async ({
+  slug,
+  comment,
+  token,
+}: addCommentArticleType) => {
+  const response = await axios.post(
+    `${BASE_URL}/articles/${slug}/comments`,
+    {
+      comment: { body: comment },
+    },
+    {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    }
+  );
 
   return response.data;
 };

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import TagItem from "../../components/TagItem";
 import AddComment from "../../components/AddComment/AddComment";
+import CommentCard from "../../components/CommentCard/CommentCard";
 
 function Article({}) {
   const [token, setToken] = useState<string | null | undefined>(null);
@@ -19,8 +20,9 @@ function Article({}) {
     getArticleBySlug(slug, token)
   );
 
-  const { data: dataComment } = useQuery(["comments", slug], () =>
-    getCommentsBySlug(slug)
+  const { data: dataComment, refetch } = useQuery(
+    ["comments", slug, token],
+    () => getCommentsBySlug(slug, token)
   );
 
   console.log(dataComment);
@@ -50,9 +52,23 @@ function Article({}) {
           })}
         </div>
         <hr className="my-4" />
-        <div className="max-w-[760px] mx-auto flex flex-col w-full mt-12">
-          <AddComment />
+        <div className="max-w-[760px] mx-auto flex flex-col w-full mt-2">
+          <AddComment refetch={refetch} />
         </div>
+
+        {dataComment?.comments?.map((i: any) => {
+          return (
+            <div className="max-w-[760px] mx-auto flex flex-col w-full mt-2">
+              {/* <CommentCard /> */}
+              <CommentCard
+                comment={i.body}
+                date={i.createdAt}
+                image={i.author.image}
+                username={i.author.username}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
