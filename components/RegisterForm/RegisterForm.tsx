@@ -6,9 +6,11 @@ import { useRouter } from "next/router";
 import { isErrorType } from "../../lib/helpers";
 import { RegisterType } from "../../lib/api";
 import { CustomError } from "../../lib/helpers";
+import { useState } from "react";
 
 const RegisterForm = () => {
   const router = useRouter();
+  const [newError, setNewError] = useState("");
   const RegisterSchema = Yup.object().shape({
     username: Yup.string().required("Username can't be blank"),
     email: Yup.string()
@@ -19,12 +21,12 @@ const RegisterForm = () => {
       .required("Password can't be blank"),
   });
 
-  const { mutate, error, isError, isSuccess, data } = useMutation(login, {
-    onSuccess(d, v, c) {
-      localStorage.setItem("token", d?.user?.token);
-      router.push("/");
-    },
-  });
+  // const { mutate, error, isError, isSuccess, data } = useMutation(login, {
+  //   onSuccess(d, v, c) {
+  //     localStorage.setItem("token", d?.user?.token);
+  //     router.push("/");
+  //   },
+  // });
 
   const {
     mutate: mutateRegister,
@@ -34,13 +36,16 @@ const RegisterForm = () => {
     data: dataRegister,
   } = useMutation<any, CustomError, RegisterType, unknown>(register, {
     onSuccess(d, v, c) {
-      console.log(d);
-      console.log(v);
-      console.log(c);
+      localStorage.setItem("token", d?.user?.token);
+      router.push("/");
+    },
+    onError(error, variables, context) {
+      console.log(error?.response?.data?.errors);
+      setNewError(error?.response?.data?.errors);
     },
   });
 
-  // console.log(errorRegister?.response.data.errors);
+  console.log(newError);
 
   return (
     <Formik
@@ -61,30 +66,9 @@ const RegisterForm = () => {
     >
       {({ touched, isSubmitting }) => (
         <>
-          {isErrorType(error) ? (
-            <p className="mb-3 text-red-600 self-start">
-              Your credentials are incorrect
-            </p>
-          ) : null}
-          {errorRegister && errorRegister.response
-            ? Object.entries(errorRegister?.response.data.errors).map(
-                (item) => {
-                  <span>{item[0]}</span>;
-                  // item[1].map((e) => {
-                  //   console.log(e);
-                  //   return <h1>{e}</h1>;
-                  // });
-                }
-              )
-            : null}
-          {/* {errorRegister && errorRegister.response
-            ? errorRegister?.response.data.errors.map((item: any[]) => {
-                // <h1>{item}</h1>;
-                item.map((e) => {
-                  return <h1>{e}</h1>;
-                });
-              })
-            : null} */}
+          {Object.entries(newError).map((element, index, array) => {
+            return <li className="text-red-600 mb-3">{element}</li>;
+          })}
           <Form className="flex flex-col w-full">
             <Field
               name="username"
